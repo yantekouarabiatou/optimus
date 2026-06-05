@@ -1,0 +1,13 @@
+# Frontend Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/vendor/
+
+# Backend Laravel (handled by backend/.gitignore)
+backend/vendor/
+backend/node_modules/
+backend/public/build/
+backend/public/hot/
+backend/.env
+backend/storage/*.key
+backend/.phpunit.cache/
