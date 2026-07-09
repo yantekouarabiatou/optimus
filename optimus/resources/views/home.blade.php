@@ -298,10 +298,23 @@
       ];
     @endphp
 
-    <div x-data="{ lightbox: null, track: null }" x-init="track = $refs.track">
-      <div class="relative">
+    <div x-data="{
+      lightbox: null, track: null, auto: null,
+      step() { return this.track.firstElementChild.getBoundingClientRect().width + 24 },
+      startAuto() {
+        this.stopAuto();
+        this.auto = setInterval(() => {
+          const max = this.track.scrollWidth - this.track.clientWidth;
+          if (this.track.scrollLeft >= max - 10) { this.track.scrollTo({ left: 0, behavior: 'smooth' }); }
+          else { this.track.scrollBy({ left: this.step(), behavior: 'smooth' }); }
+        }, 3000);
+      },
+      stopAuto() { clearInterval(this.auto); },
+      pauseThenResume() { this.stopAuto(); clearTimeout(this.resumeTimer); this.resumeTimer = setTimeout(() => this.startAuto(), 4000); }
+    }" x-init="track = $refs.track; startAuto()">
+      <div class="relative" @mouseenter="stopAuto()" @mouseleave="startAuto()" @touchstart="stopAuto()" @touchend="pauseThenResume()">
         {{-- Flèche gauche (desktop) --}}
-        <button @click="track.scrollBy({left:-336, behavior:'smooth'})"
+        <button @click="pauseThenResume(); track.scrollBy({left:-336, behavior:'smooth'})"
                 class="hidden lg:flex absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center bg-card border border-border rounded-full shadow-lg hover:bg-accent hover:text-white hover:border-accent transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
@@ -351,7 +364,7 @@
         </div>
 
         {{-- Flèche droite (desktop) --}}
-        <button @click="track.scrollBy({left:336, behavior:'smooth'})"
+        <button @click="pauseThenResume(); track.scrollBy({left:336, behavior:'smooth'})"
                 class="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center bg-card border border-border rounded-full shadow-lg hover:bg-accent hover:text-white hover:border-accent transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
@@ -558,7 +571,7 @@
     this.loading = false;
     this.$nextTick(() => { const el = this.$refs.msgs; if(el) el.scrollTop = el.scrollHeight; });
   }
-}" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 max-w-[calc(100vw-2rem)] flex flex-col items-end">
+}" class="fixed right-4 sm:right-6 z-50 max-w-[calc(100vw-2rem)] flex flex-col items-end" style="bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px))">
 
   <div x-show="open" x-cloak
        x-transition:enter="transition duration-300" x-transition:enter-start="opacity-0 translate-y-4 scale-95"
