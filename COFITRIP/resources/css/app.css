@@ -1,0 +1,81 @@
+@import 'datatables.net-dt';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Re-skin DataTables to match the COFIMA design instead of its default look */
+.dt-container {
+    font-family: inherit;
+}
+.dt-search input,
+.dt-length select {
+    border-radius: 0.5rem;
+    border: 1px solid #cbd5e1;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    outline: none;
+}
+.dt-search input:focus,
+.dt-length select:focus {
+    border-color: #1B3A6B;
+    box-shadow: 0 0 0 2px rgb(27 58 107 / 0.2);
+}
+table.dataTable thead th {
+    background-color: #f8fafc;
+    color: #6B7280;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+table.dataTable tbody td {
+    border-bottom: 1px solid #f1f5f9 !important;
+    font-size: 0.875rem;
+}
+table.dataTable tbody tr:hover {
+    background-color: #f8fafc;
+}
+.dt-paging .dt-paging-button {
+    border-radius: 0.5rem !important;
+    margin-left: 0.15rem;
+}
+.dt-paging .dt-paging-button.current {
+    background: #1B3A6B !important;
+    border-color: #1B3A6B !important;
+    color: #fff !important;
+}
+.dt-paging .dt-paging-button:hover:not(.disabled) {
+    background: #142C52 !important;
+    border-color: #142C52 !important;
+    color: #fff !important;
+}
+.dt-info {
+    color: #6B7280;
+    font-size: 0.8rem;
+}
+
+/* Homepage motion */
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+    animation: fade-in-up 0.7s ease-out both;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+@keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -30px) scale(1.05); }
+    66% { transform: translate(-15px, 15px) scale(0.97); }
+}
+.animate-blob {
+    animation: blob 12s ease-in-out infinite;
+}

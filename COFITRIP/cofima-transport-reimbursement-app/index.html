@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr" class="bg-slate-50">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COFIMA — Gestion des frais de transport</title>
+  <meta name="description" content="Application interne COFIMA pour la gestion des demandes de remboursement de frais de transport." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cofima: {
+              DEFAULT: "#1B3A6B",
+              dark: "#142C52",
+              light: "#2A4F8A",
+            },
+            steel: "#6B7280",
+          },
+          fontFamily: {
+            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: "Inter", system-ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+  <!-- ============ PAGE ACCUEIL ============ -->
+  <section x-page="home" class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 h-20 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-lg bg-cofima flex items-center justify-center shadow-sm">
+            <span class="text-white text-2xl font-extrabold lowercase leading-none">e</span>
+          </div>
+          <div class="leading-tight">
+            <p class="text-xl font-extrabold tracking-tight text-cofima">COFIMA</p>
+            <p class="text-[9px] sm:text-[10px] font-medium tracking-wide text-steel uppercase">Compagnie Fiduciaire de Management et d&apos;Audit</p>
+          </div>
+        </div>
+        <button onclick="showPage('login')" class="rounded-lg bg-cofima px-5 py-2.5 text-sm font-semibold text-white hover:bg-cofima-dark transition-colors">
+          Se connecter
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <main class="flex-1">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <span class="inline-block rounded-full bg-cofima/10 px-3 py-1 text-xs font-semibold text-cofima mb-5">Espace interne collaborateurs</span>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-cofima text-balance leading-[1.1]">
+            Gestion des demandes de frais de transport
+          </h1>
+          <p class="mt-6 text-base sm:text-lg text-steel leading-relaxed text-pretty max-w-xl">
+            Soumettez, suivez et centralisez vos demandes de remboursement de frais de déplacement.
+            Une solution simple et transparente pour les collaborateurs de COFIMA, du dépôt de la demande jusqu&apos;à sa validation par la Direction Générale.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <button onclick="showPage('login')" class="rounded-lg bg-cofima px-6 py-3 text-sm font-semibold text-white hover:bg-cofima-dark transition-colors shadow-sm">
+              Accéder à mon espace
+            </button>
+            <a href="#process" class="rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors">
+              En savoir plus
+            </a>
+          </div>
+        </div>
+
+        <!-- Illustration card -->
+        <div class="relative">
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <p class="text-sm font-semibold text-cofima">Aperçu d&apos;une demande</p>
+              <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">En attente</span>
+            </div>
+            <dl class="mt-4 space-y-3 text-sm">
+              <div class="flex justify-between"><dt class="text-steel">Trajet</dt><dd class="font-medium text-slate-800">Plateau → Cocody</dd></div>
+              <div class="flex justify-between"><dt class="text-steel">Date</dt><dd class="font-medium text-slate-800">12/06/2026</dd></div>
+              <div class="flex justify-between"><dt class="text-steel">Transport</dt><dd class="font-medium text-slate-800">Taxi</dd></div>
+              <div class="flex justify-between"><dt class="text-steel">Coût estimé</dt><dd class="font-semibold text-cofima">8 500 FCFA</dd></div>
+            </dl>
+          </div>
+          <div class="absolute -bottom-6 -left-3 rounded-xl border border-slate-200 bg-cofima px-5 py-3 shadow-lg hidden sm:block">
+            <p class="text-xs text-white/70">Notification automatique</p>
+            <p class="text-sm font-semibold text-white">Direction Générale &amp; Secrétariat</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Process -->
+      <div id="process" class="border-t border-slate-200 bg-white">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16">
+          <h2 class="text-2xl font-bold text-cofima text-center">Un processus en 3 étapes</h2>
+          <div class="mt-10 grid gap-6 sm:grid-cols-3">
+            <div class="rounded-xl border border-slate-200 p-6">
+              <div class="h-9 w-9 rounded-lg bg-cofima/10 flex items-center justify-center font-bold text-cofima">1</div>
+              <h3 class="mt-4 font-semibold text-slate-800">Créez votre demande</h3>
+              <p class="mt-2 text-sm text-steel leading-relaxed">Renseignez le trajet, le motif, le moyen de transport et le coût estimé.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 p-6">
+              <div class="h-9 w-9 rounded-lg bg-cofima/10 flex items-center justify-center font-bold text-cofima">2</div>
+              <h3 class="mt-4 font-semibold text-slate-800">Envoi automatique</h3>
+              <p class="mt-2 text-sm text-steel leading-relaxed">La demande est transmise par email au DG, en copie au secrétariat.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 p-6">
+              <div class="h-9 w-9 rounded-lg bg-cofima/10 flex items-center justify-center font-bold text-cofima">3</div>
+              <h3 class="mt-4 font-semibold text-slate-800">Suivi du statut</h3>
+              <p class="mt-2 text-sm text-steel leading-relaxed">Suivez l&apos;état de vos demandes : en attente, validée ou rejetée.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-6 text-center text-xs text-steel">
+        © 2026 COFIMA — Compagnie Fiduciaire de Management et d&apos;Audit. Usage interne.
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============ PAGE CONNEXION ============ -->
+  <section x-page="login" style="display:none" class="min-h-screen bg-slate-100 flex flex-col items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+      <!-- Logo -->
+      <div class="flex flex-col items-center gap-3 mb-8">
+        <div class="h-14 w-14 rounded-xl bg-cofima flex items-center justify-center shadow-sm">
+          <span class="text-white text-3xl font-extrabold lowercase leading-none">e</span>
+        </div>
+        <div class="text-center leading-tight">
+          <p class="text-2xl font-extrabold tracking-tight text-cofima">COFIMA</p>
+          <p class="text-[10px] font-medium tracking-wide text-steel uppercase">Compagnie Fiduciaire de Management et d&apos;Audit</p>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+        <h1 class="text-xl font-bold text-slate-800">Connexion à votre espace</h1>
+        <p class="mt-1 text-sm text-steel">Accédez à vos demandes de frais de transport.</p>
+
+        <form class="mt-6 space-y-4" onsubmit="event.preventDefault(); showPage('dashboard');">
+          <div>
+            <label for="email" class="block text-sm font-medium text-slate-700 mb-1.5">Email professionnel</label>
+            <input id="email" type="email" required placeholder="prenom.nom@cofima.ci"
+              class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" />
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-slate-700 mb-1.5">Mot de passe</label>
+            <input id="password" type="password" required placeholder="••••••••"
+              class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" />
+          </div>
+          <button type="submit" class="w-full rounded-lg bg-cofima px-4 py-2.5 text-sm font-semibold text-white hover:bg-cofima-dark transition-colors">
+            Se connecter
+          </button>
+        </form>
+      </div>
+
+      <button onclick="showPage('home')" class="mt-6 mx-auto block text-sm font-medium text-steel hover:text-cofima transition-colors">
+        ← Retour à l&apos;accueil
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE DASHBOARD ============ -->
+  <section x-page="dashboard" style="display:none" class="min-h-screen bg-slate-100">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside class="hidden md:flex w-64 shrink-0 flex-col bg-cofima text-white">
+        <div class="flex items-center gap-3 px-6 h-20 border-b border-white/10">
+          <div class="h-10 w-10 rounded-lg bg-white flex items-center justify-center">
+            <span class="text-cofima text-xl font-extrabold lowercase leading-none">e</span>
+          </div>
+          <div class="leading-tight">
+            <p class="text-lg font-extrabold tracking-tight">COFIMA</p>
+            <p class="text-[8px] font-medium tracking-wide text-white/60 uppercase">Fiduciaire &amp; Audit</p>
+          </div>
+        </div>
+        <nav class="flex-1 px-3 py-6 space-y-1 text-sm">
+          <a href="#" class="flex items-center gap-3 rounded-lg bg-white/10 px-3 py-2.5 font-medium">
+            <span class="h-2 w-2 rounded-full bg-white"></span> Tableau de bord
+          </a>
+          <button onclick="openModal()" class="w-full flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium text-white/80 hover:bg-white/10 transition-colors">
+            <span class="h-2 w-2 rounded-full bg-white/40"></span> Nouvelle demande
+          </button>
+          <a href="#mes-demandes" class="flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium text-white/80 hover:bg-white/10 transition-colors">
+            <span class="h-2 w-2 rounded-full bg-white/40"></span> Mes demandes
+          </a>
+          <button onclick="showPage('home')" class="w-full flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium text-white/80 hover:bg-white/10 transition-colors">
+            <span class="h-2 w-2 rounded-full bg-white/40"></span> Déconnexion
+          </button>
+        </nav>
+        <div class="px-6 py-4 border-t border-white/10 text-xs text-white/50">
+          Connecté en tant que<br /><span class="text-white/80 font-medium">Collaborateur COFIMA</span>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="flex-1 flex flex-col">
+        <!-- Topbar -->
+        <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 sm:px-6">
+          <div>
+            <h1 class="text-base sm:text-lg font-bold text-slate-800">Tableau de bord</h1>
+            <p class="text-xs text-steel">Vue d&apos;ensemble de vos demandes</p>
+          </div>
+          <button onclick="openModal()" class="rounded-lg bg-cofima px-4 py-2.5 text-sm font-semibold text-white hover:bg-cofima-dark transition-colors">
+            + Nouvelle demande
+          </button>
+        </header>
+
+        <main class="flex-1 p-4 sm:p-6 space-y-6">
+          <!-- Stats -->
+          <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+              <p class="text-xs font-medium text-steel">Demandes en attente</p>
+              <p id="stat-pending" class="mt-2 text-2xl font-extrabold text-amber-500">0</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+              <p class="text-xs font-medium text-steel">Demandes validées</p>
+              <p id="stat-approved" class="mt-2 text-2xl font-extrabold text-emerald-600">0</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+              <p class="text-xs font-medium text-steel">Demandes rejetées</p>
+              <p id="stat-rejected" class="mt-2 text-2xl font-extrabold text-red-600">0</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+              <p class="text-xs font-medium text-steel">Montant total du mois</p>
+              <p id="stat-total" class="mt-2 text-2xl font-extrabold text-cofima">0 FCFA</p>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div id="mes-demandes" class="rounded-xl border border-slate-200 bg-white overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+              <h2 class="font-semibold text-slate-800">Mes demandes</h2>
+              <span id="count-label" class="text-xs text-steel">0 demande(s)</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="text-left text-xs uppercase tracking-wide text-steel bg-slate-50">
+                    <th class="px-5 py-3 font-semibold">Date</th>
+                    <th class="px-5 py-3 font-semibold">Trajet</th>
+                    <th class="px-5 py-3 font-semibold">Transport</th>
+                    <th class="px-5 py-3 font-semibold">Coût</th>
+                    <th class="px-5 py-3 font-semibold">Statut</th>
+                  </tr>
+                </thead>
+                <tbody id="requests-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+            <div id="empty-state" class="px-5 py-12 text-center text-sm text-steel">
+              Aucune demande pour le moment. Cliquez sur <span class="font-semibold text-cofima">« Nouvelle demande »</span> pour commencer.
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODAL NOUVELLE DEMANDE ============ -->
+  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 p-4">
+    <div class="w-full max-w-lg rounded-2xl bg-white shadow-xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+        <h2 class="text-lg font-bold text-slate-800">Nouvelle demande de transport</h2>
+        <button onclick="closeModal()" class="text-steel hover:text-slate-800 text-2xl leading-none">&times;</button>
+      </div>
+      <form id="request-form" class="px-6 py-5 space-y-4">
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1.5">Lieu de départ *</label>
+            <input name="depart" required class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" placeholder="Ex : Plateau" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1.5">Lieu d&apos;arrivée *</label>
+            <input name="arrivee" required class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" placeholder="Ex : Cocody" />
+          </div>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1.5">Date du déplacement *</label>
+            <input name="date" type="date" required class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1.5">Moyen de transport *</label>
+            <select name="transport" required class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20 bg-white">
+              <option value="">Sélectionner…</option>
+              <option>Taxi</option>
+              <option>Moto</option>
+              <option>Véhicule personnel</option>
+              <option>Location</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">Motif du déplacement *</label>
+          <input name="motif" required class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" placeholder="Ex : Rendez-vous client, mission d&apos;audit…" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">Coût estimé (FCFA) *</label>
+          <input name="cout" type="number" min="0" step="100" required class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" placeholder="Ex : 8500" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">Commentaire (optionnel)</label>
+          <textarea name="commentaire" rows="2" class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-cofima focus:ring-2 focus:ring-cofima/20" placeholder="Précisions éventuelles…"></textarea>
+        </div>
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="closeModal()" class="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors">
+            Annuler
+          </button>
+          <button type="submit" class="rounded-lg bg-cofima px-5 py-2.5 text-sm font-semibold text-white hover:bg-cofima-dark transition-colors">
+            Soumettre la demande
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ====== Configuration email ======
+    const DG_EMAIL = "dg@cofima.ci";            // Destinataire principal (Directeur Général)
+    const SECRETAIRE_EMAIL = "secretariat@cofima.ci"; // En copie (Cc)
+
+    // ====== Données en mémoire ======
+    const requests = [];
+
+    // ====== Navigation ======
+    function showPage(page) {
+      document.querySelectorAll("[x-page]").forEach((el) => {
+        el.style.display = "none";
+      });
+      const target = document.querySelector('[x-page="' + page + '"]');
+      if (target) target.style.display = ""; // revert to the class-based display (flex/block)
+      window.scrollTo(0, 0);
+    }
+
+    // ====== Modal ======
+    function openModal() {
+      const modal = document.getElementById("modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+    function closeModal() {
+      const modal = document.getElementById("modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+    document.getElementById("modal").addEventListener("click", (e) => {
+      if (e.target.id === "modal") closeModal();
+    });
+
+    // ====== Helpers ======
+    function formatFCFA(n) {
+      return Number(n).toLocaleString("fr-FR") + " FCFA";
+    }
+    function formatDate(iso) {
+      if (!iso) return "";
+      const [y, m, d] = iso.split("-");
+      return d + "/" + m + "/" + y;
+    }
+    const STATUS = {
+      "En attente": "bg-amber-100 text-amber-700",
+      "Validée": "bg-emerald-100 text-emerald-700",
+      "Rejetée": "bg-red-100 text-red-700",
+    };
+
+    // ====== Rendu ======
+    function render() {
+      const body = document.getElementById("requests-body");
+      const empty = document.getElementById("empty-state");
+      body.innerHTML = "";
+
+      if (requests.length === 0) {
+        empty.classList.remove("hidden");
+      } else {
+        empty.classList.add("hidden");
+        requests.forEach((r) => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-slate-50";
+          tr.innerHTML =
+            '<td class="px-5 py-3.5 whitespace-nowrap text-slate-700">' + formatDate(r.date) + "</td>" +
+            '<td class="px-5 py-3.5 text-slate-700">' + r.depart + " → " + r.arrivee + "</td>" +
+            '<td class="px-5 py-3.5 text-slate-700">' + r.transport + "</td>" +
+            '<td class="px-5 py-3.5 whitespace-nowrap font-medium text-cofima">' + formatFCFA(r.cout) + "</td>" +
+            '<td class="px-5 py-3.5"><span class="inline-block rounded-full px-2.5 py-1 text-xs font-semibold ' + STATUS[r.statut] + '">' + r.statut + "</span></td>";
+          body.appendChild(tr);
+        });
+      }
+
+      // Stats
+      const pending = requests.filter((r) => r.statut === "En attente").length;
+      const approved = requests.filter((r) => r.statut === "Validée").length;
+      const rejected = requests.filter((r) => r.statut === "Rejetée").length;
+      const now = new Date();
+      const total = requests
+        .filter((r) => {
+          const d = new Date(r.date);
+          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        })
+        .reduce((sum, r) => sum + Number(r.cout), 0);
+
+      document.getElementById("stat-pending").textContent = pending;
+      document.getElementById("stat-approved").textContent = approved;
+      document.getElementById("stat-rejected").textContent = rejected;
+      document.getElementById("stat-total").textContent = formatFCFA(total);
+      document.getElementById("count-label").textContent = requests.length + " demande(s)";
+    }
+
+    // ====== Génération du lien mailto ======
+    function buildMailto(r) {
+      const subject = "Demande de remboursement de frais de transport — " + r.depart + " → " + r.arrivee;
+      const bodyLines = [
+        "Bonjour,",
+        "",
+        "Je soumets une demande de remboursement de frais de transport dont voici le détail :",
+        "",
+        "• Lieu de départ : " + r.depart,
+        "• Lieu d'arrivée : " + r.arrivee,
+        "• Date du déplacement : " + formatDate(r.date),
+        "• Motif : " + r.motif,
+        "• Moyen de transport : " + r.transport,
+        "• Coût estimé : " + formatFCFA(r.cout),
+        "• Commentaire : " + (r.commentaire || "—"),
+        "",
+        "Je vous remercie par avance pour la validation de cette demande.",
+        "",
+        "Cordialement,",
+        "Un collaborateur COFIMA",
+      ];
+      const params =
+        "cc=" + encodeURIComponent(SECRETAIRE_EMAIL) +
+        "&subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(bodyLines.join("\n"));
+      return "mailto:" + encodeURIComponent(DG_EMAIL) + "?" + params;
+    }
+
+    // ====== Soumission du formulaire ======
+    document.getElementById("request-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(this).entries());
+      const req = {
+        depart: data.depart.trim(),
+        arrivee: data.arrivee.trim(),
+        date: data.date,
+        motif: data.motif.trim(),
+        transport: data.transport,
+        cout: data.cout,
+        commentaire: (data.commentaire || "").trim(),
+        statut: "En attente",
+      };
+      requests.unshift(req);
+      render();
+      this.reset();
+      closeModal();
+
+      // Ouvre le client mail pré-rempli (DG en To, secrétaire en Cc)
+      window.location.href = buildMailto(req);
+    });
+
+    // Rendu initial
+    render();
+  </script>
+</body>
+</html>
