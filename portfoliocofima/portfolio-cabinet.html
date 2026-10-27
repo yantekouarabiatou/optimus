@@ -19,28 +19,28 @@ button{font:inherit}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ============ EN-TÊTE MARINE (fixe) ============ */
-header{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(20,38,75,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+header{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);box-shadow:0 4px 18px rgba(20,38,75,.08)}
 .nav{display:flex;align-items:center;gap:20px;height:var(--hd)}
 .brand{display:flex;align-items:center;margin-right:auto;color:#fff}
-/* Logo COFIMA détouré (fond transparent), variante texte blanc pour l'en-tête marine */
+/* Logo COFIMA détouré (fond transparent), couleurs d'origine sur l'en-tête clair */
 .brand img{height:38px;width:auto;display:block}
 .hnav{display:flex;gap:4px}
-.hnav a{padding:8px 13px;border-radius:999px;font-weight:600;font-size:15px;color:rgba(255,255,255,.86);transition:background .2s,color .2s}
-.hnav a:hover{background:rgba(255,255,255,.08);color:#fff}
-.hbtn{padding:10px 20px;border-radius:999px;background:var(--gr);color:var(--nv);font-weight:700;font-size:14.5px;white-space:nowrap;transition:background .2s}
-.hbtn:hover{background:#fff}
-.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;cursor:pointer;place-items:center}
+.hnav a{padding:8px 13px;border-radius:999px;font-weight:600;font-size:15px;color:var(--nv);transition:background .2s,color .2s}
+.hnav a:hover{background:var(--bl-s);color:var(--bl2)}
+.hbtn{padding:10px 20px;border-radius:999px;background:var(--nv2);color:#fff;font-weight:700;font-size:14.5px;white-space:nowrap;transition:background .2s}
+.hbtn:hover{background:var(--nv)}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--bd);background:#fff;color:var(--nv);cursor:pointer;place-items:center}
 .burger svg{width:22px;height:22px}
 
 /* ============ HERO PLEIN ÉCRAN (une seule illustration, pas de slider) ============ */
 .hero{position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;overflow:hidden;color:#fff;
-  background:linear-gradient(160deg,var(--nv) 0%,var(--nv2) 100%);padding:calc(var(--hd) + 48px) 20px 140px}
+  background:linear-gradient(160deg,rgba(20,38,75,.84) 0%,rgba(31,58,117,.78) 100%),#7F95C4;padding:calc(var(--hd) + 48px) 20px 140px}
 /* Couche 1 : grille, circuits et grandes formes (toute la largeur, débordement pour la parallaxe) */
 .h-bg{position:absolute;inset:-24px;width:calc(100% + 48px);height:calc(100% + 48px)}
 /* Couche 2 : la scène « savoir du cabinet », au centre-droit */
 .h-scene{position:absolute;right:1vw;top:56%;width:min(48vw,820px);transform:translateY(-50%);overflow:visible;opacity:.85}
 /* Couche 3 : voile marine pour la lisibilité du texte centré */
-.h-veil{position:absolute;inset:0;background:radial-gradient(ellipse 58% 52% at 50% 50%,rgba(20,38,75,.9) 0%,rgba(20,38,75,.62) 55%,rgba(20,38,75,.12) 100%),linear-gradient(to top,rgba(20,38,75,.7),transparent 30%)}
+.h-veil{position:absolute;inset:0;background:radial-gradient(ellipse 58% 52% at 50% 50%,rgba(20,38,75,.72) 0%,rgba(20,38,75,.45) 55%,rgba(20,38,75,.08) 100%),linear-gradient(to top,rgba(20,38,75,.5),transparent 30%)}
 .h-txt{position:relative;max-width:1200px}
 .pill{display:inline-flex;align-items:center;gap:9px;padding:8px 18px;border-radius:999px;border:1px solid rgba(180,188,203,.6);background:rgba(255,255,255,.07);backdrop-filter:blur(6px);font-size:13.5px;font-weight:600;letter-spacing:.4px;color:#E4E9F3}
 .pill i{width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 0 4px rgba(180,188,203,.18)}
@@ -192,6 +192,21 @@ h2{font-size:30px;color:var(--nv)}h2::after{content:"";display:block;width:58px;
 .doc-cta svg{width:17px;height:17px}
 .card:hover .doc-cta,.card:focus-visible .doc-cta{opacity:1;transform:translate(-50%,0)}
 @media(hover:none){.doc-cta{display:none}}
+/* Réalisations : fenêtre de navigateur posée sur le fond marine (capture d'écran ou maquette) */
+.doc-pg.app{top:23%;width:80%;border-radius:8px 8px 0 0}
+.app-bar{display:flex;align-items:center;gap:4px;height:20px;padding:0 9px;background:#EEF2F8;border-bottom:1px solid #DFE6F3}
+.app-bar i{width:6px;height:6px;border-radius:50%;background:#C9D3E6;flex:none}
+.app-bar em{margin-left:8px;flex:1;min-width:0;height:11px;border-radius:6px;background:#fff;font-style:normal;font-size:7.5px;line-height:11px;color:#8A94A8;padding:0 7px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.app-body{display:flex;aspect-ratio:16/10}
+.app-body img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block}
+.app-side{width:21%;background:linear-gradient(var(--nv2),var(--nv2)) 0 0/100% 22% no-repeat,repeating-linear-gradient(transparent 0 12px,rgba(255,255,255,.14) 12px 17px,transparent 17px 24px) 18% 30%/64% 70% no-repeat,var(--nv)}
+.app-main{flex:1;display:flex;flex-direction:column;gap:9px;padding:7% 7% 0}
+.app-main b{font-size:clamp(10px,4.2cqi,15px);font-weight:800;color:var(--nv);letter-spacing:-.2px}
+.app-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.app-kpi i{height:clamp(16px,7cqi,26px);border-radius:4px;background:var(--bl-s);border-left:3px solid var(--bl)}
+.app-kpi i:nth-child(2){border-color:var(--gr)}.app-kpi i:nth-child(3){border-color:var(--nv2)}
+.app-rows{flex:1;background:repeating-linear-gradient(#EEF3FC 0 6px,transparent 6px 13px)}
+.doc-badge i.b-app{background:var(--bl)}.doc-badge i.b-web{background:#1E9E6A}.doc-badge i.b-cours{background:#D9822B}
 
 /* ============ VISIONNEUSE PDF ============ */
 .pdfv{position:fixed;inset:0;z-index:75;display:none;background:rgba(10,20,42,.78);backdrop-filter:blur(4px);padding:clamp(0px,2.4vw,28px)}
@@ -239,11 +254,21 @@ h2{font-size:30px;color:var(--nv)}h2::after{content:"";display:block;width:58px;
   .pv-pages{padding:16px 10px 34px;gap:26px}
 }
 .wave{position:absolute;left:0;top:-1px;width:100%;height:46px}
+/* Pagination des grilles de cartes (6 par page) */
+.pager{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:40px;flex-wrap:wrap}
+.pager button{min-width:42px;height:42px;padding:0 12px;border-radius:999px;border:1.5px solid var(--bd);background:#fff;color:var(--nv2);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .2s,color .2s,border-color .2s}
+.pager button:hover:not(:disabled):not([aria-current]){border-color:var(--nv2)}
+.pager button[aria-current]{background:var(--nv2);border-color:var(--nv2);color:#fff;cursor:default}
+.pager button:disabled{opacity:.4;cursor:default}
+.pager button:focus-visible{outline:3px solid var(--bl);outline-offset:2px}
+.pager svg{width:16px;height:16px}
+.pager .pg-info{flex-basis:100%;text-align:center;font-size:13px;color:var(--mu);margin-top:4px}
+@media(max-width:639px){.pager .pg-lbl{display:none}}
 .empty{padding:38px;text-align:center;color:var(--mu);border:1.5px dashed var(--bd);border-radius:16px;grid-column:1/-1;background:#fff}
 #contact{background:var(--nv);color:#fff;overflow:hidden}
 #contact h2{color:#fff}#contact .sub{color:#c6d1ea}
 #contact .cta{justify-content:flex-start}
-footer{background:#0E1B38;color:#9fb0d4;padding:26px 0;font-size:14px}footer b{color:var(--gr)}
+footer{background:rgba(14,27,56,.84);color:#C6D1EA;padding:26px 0;font-size:14px}footer b{color:var(--gr)}
 /* Vue détail (réalisations) */
 .mod{position:fixed;inset:0;background:rgba(14,27,56,.62);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}
 .mod.on{display:flex}
@@ -256,6 +281,11 @@ footer{background:#0E1B38;color:#9fb0d4;padding:26px 0;font-size:14px}footer b{c
 .res{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 16px}
 .res div{background:var(--bl-s);border-radius:12px;padding:12px;font-size:12.5px;color:var(--mu)}
 .res strong{display:block;font-size:22px;color:var(--nv2)}
+.box .lnk{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:20px;padding-top:18px;border-top:1px solid var(--bd)}
+.box .lnk a{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;background:var(--nv2);color:#fff;font-weight:700;font-size:14px;transition:background .2s}
+.box .lnk a:hover{background:var(--nv)}
+.box .lnk svg{width:16px;height:16px}
+.box .lnk small{color:var(--mu);font-size:13px}
 @keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 /* Apparition progressive au défilement */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}.rv.in{opacity:1;transform:none}
@@ -265,7 +295,7 @@ footer{background:#0E1B38;color:#9fb0d4;padding:26px 0;font-size:14px}footer b{c
 @media(max-width:900px){
   /* L’illustration se recadre et passe derrière le texte */
   .h-scene{right:50%;top:50%;width:150vw;max-width:none;transform:translate(50%,-50%);opacity:.3}
-  .h-veil{background:linear-gradient(rgba(20,38,75,.35),rgba(20,38,75,.55))}
+  .h-veil{background:linear-gradient(rgba(20,38,75,.28),rgba(20,38,75,.45))}
 }
 @media(max-width:640px){
   .tab{display:none}               /* sur mobile, le menu s’ouvre par le bouton de l’en-tête */
@@ -287,11 +317,13 @@ footer{background:#0E1B38;color:#9fb0d4;padding:26px 0;font-size:14px}footer b{c
 <header><div class="wrap nav">
   <!-- Logo COFIMA complet -->
   <a class="brand" href="#accueil">
-    <img src="logo-cofima-blanc.png?v=3" alt="COFIMA — Compagnie Fiduciaire de Management et d’Audit — retour à l’accueil">
+    <img src="logo-cofima.png?v=3" alt="COFIMA - Compagnie Fiduciaire de Management et d’Audit — retour à l’accueil">
     <span class="sr"><span id="nom">COFIMA</span> <span id="base"></span></span>
   </a>
   <nav class="hnav" aria-label="Navigation principale">
-    <a href="#accueil">Accueil</a><a href="#presentations">Présentations</a><a href="#realisations">Réalisations</a><a href="#formations">Formations</a><a href="#contact">Contact</a>
+        <a href="#formations">Formations</a>
+        <a href="#realisations">Réalisations</a>
+        <a href="#presentations">Présentations</a>
   </nav>
   <a class="hbtn" href="#contact">Nous contacter</a>
   <button class="burger" type="button" aria-label="Ouvrir le menu" aria-controls="drawer" aria-expanded="false" data-open-drawer>
@@ -432,6 +464,19 @@ footer{background:#0E1B38;color:#9fb0d4;padding:26px 0;font-size:14px}footer b{c
 
   <svg class="h-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 46C240 90 480 6 720 34S1200 84 1440 24V80H0Z" fill="#fff"/></svg>
 </div>
+<section id="formations" class="formations">
+  <svg class="wave" viewBox="0 0 1440 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0h1440v10c-240 36-480 36-720 18S240 4 0 24z" fill="#fff"/></svg>
+  <div class="wrap">
+    <h2 class="rv">Plan de formation</h2>
+    <p class="sub rv">Les formations animées par les membres du cabinet, avec leurs supports à consulter en ligne.</p>
+    <div class="grid" id="fgrid" style="margin-top:32px"></div>
+  </div>
+</section>
+<section id="realisations"><div class="wrap">
+  <h2 class="rv">Réalisations</h2>
+  <p class="sub rv">Les applications et sites web développés au sein du cabinet. Cliquez sur une carte pour voir le détail.</p>
+  <div class="grid" id="rgrid" style="margin-top:32px"></div>
+</div></section>
 
 <section id="presentations"><div class="wrap">
   <h2 class="rv">Présentations</h2>
@@ -443,28 +488,14 @@ footer{background:#0E1B38;color:#9fb0d4;padding:26px 0;font-size:14px}footer b{c
   <div class="grid" id="grid"></div>
 </div></section>
 
-<section id="realisations"><div class="wrap">
-  <h2 class="rv">Réalisations</h2>
-  <p class="sub rv">Quelques missions et projets menés par le cabinet. Cliquez sur une carte pour voir le détail.</p>
-  <div class="grid" id="rgrid" style="margin-top:32px"></div>
-</div></section>
-
-<section id="formations" class="formations">
-  <svg class="wave" viewBox="0 0 1440 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0h1440v10c-240 36-480 36-720 18S240 4 0 24z" fill="#fff"/></svg>
-  <div class="wrap">
-    <h2 class="rv">Plan de formation</h2>
-    <p class="sub rv">Les formations animées par les membres du cabinet, avec leurs supports à consulter en ligne.</p>
-    <div class="grid" id="fgrid" style="margin-top:32px"></div>
-  </div>
-</section>
-
 <section id="contact"><div class="wrap">
   <h2 class="rv">Nous contacter</h2>
   <p class="sub rv" id="contactTxt"></p>
   <div class="cta rv"><a class="btn" id="mail" href="#">Écrire au cabinet</a></div>
-</div></section>
+</div>
+</section>
 </main>
-<footer><div class="wrap">© <span id="an"></span> <b id="nom2"></b> — Tous droits réservés.</div></footer>
+<footer><div class="wrap">© <span id="an"></span> <b id="nom2"></b> Tous droits réservés.</div></footer>
 
 <!-- ============ TIROIR « MENU » ============ -->
 <div class="scrim" id="scrim"></div>
@@ -535,7 +566,7 @@ footer{background:#0E1B38;color:#9fb0d4;padding:26px 0;font-size:14px}footer b{c
   <div class="pv-body" id="pvBody"><div class="pv-pages" id="pvPages"></div><div class="pv-load" id="pvLoad">Chargement du document…</div></div>
 </div></div>
 <script src="vendor/pdfjs/pdf.min.js"></script>
-<script src="data.js?v=3"></script>
+<script src="data.js?v=9"></script>
 <script>
 const D = window.DATA || {cabinet:"Cabinet", presentations:[], realisations:[], formations:[]};
 const $ = s => document.querySelector(s);
@@ -578,7 +609,7 @@ const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.
 const reveal = () => document.querySelectorAll(".rv:not(.in)").forEach((el,i) => { el.style.transitionDelay = (i % 6) * 70 + "ms"; io ? io.observe(el) : el.classList.add("in"); });
 
 /* ---------- Textes lus dans data.js ---------- */
-document.title = "Portfolio — " + D.cabinet;
+document.title = "Portfolio " + D.cabinet;
 $("#nom").textContent = $("#nom2").textContent = D.cabinet;
 $("#base").textContent = D.baseline || "";
 $("#contactTxt").textContent = "Une question, un projet de formation ? " + (D.tel || "") + " · " + (D.email || "");
@@ -614,12 +645,39 @@ function chips(){
   $("#chips").innerHTML = ["Toutes", ...cats].map(c => `<button class="chip${c === cat ? " on" : ""}" data-c="${esc(c)}" aria-pressed="${c === cat}">${esc(c)}</button>`).join("");
   document.querySelectorAll(".chip").forEach(b => b.onclick = () => { cat = b.dataset.c; chips(); draw(); });
 }
+/* Pagination : 6 cartes par page ; la barre n’apparaît que s’il y a plus d’une page */
+const PAR_PAGE = 6;
+function paginer(grid, page){
+  const items = [...grid.children].filter(el => !el.classList.contains("empty"));
+  const nb = Math.ceil(items.length / PAR_PAGE);
+  let nav = grid.nextElementSibling;
+  if (!nav || !nav.classList.contains("pager")){ nav = document.createElement("nav"); nav.className = "pager"; grid.after(nav); }
+  if (nb <= 1){ items.forEach(el => el.hidden = false); nav.hidden = true; return; }
+  page = Math.min(Math.max(1, page || 1), nb);
+  items.forEach((el, i) => el.hidden = Math.floor(i / PAR_PAGE) !== page - 1);
+  const titre = grid.closest("section").querySelector("h2").textContent;
+  nav.setAttribute("aria-label", "Pagination — " + titre);
+  const fl = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const debut = (page - 1) * PAR_PAGE + 1, fin = Math.min(page * PAR_PAGE, items.length);
+  nav.innerHTML = `<button type="button" data-p="${page - 1}"${page === 1 ? " disabled" : ""} aria-label="Page précédente">${fl("M15 6l-6 6 6 6")}<span class="pg-lbl">Précédent</span></button>`
+    + Array.from({length: nb}, (_, i) => `<button type="button" data-p="${i + 1}"${i + 1 === page ? ' aria-current="page"' : ""} aria-label="Page ${i + 1}">${i + 1}</button>`).join("")
+    + `<button type="button" data-p="${page + 1}"${page === nb ? " disabled" : ""} aria-label="Page suivante"><span class="pg-lbl">Suivant</span>${fl("M9 6l6 6-6 6")}</button>`
+    + `<span class="pg-info" aria-live="polite">${debut}–${fin} sur ${items.length}</span>`;
+  nav.hidden = false;
+  nav.onclick = e => {
+    const b = e.target.closest("button[data-p]"); if (!b || b.disabled || b.hasAttribute("aria-current")) return;
+    paginer(grid, +b.dataset.p); reveal();
+    grid.closest("section").scrollIntoView({behavior: reduit ? "auto" : "smooth"});
+    nav.querySelector("[aria-current]").focus({preventScroll:true});
+  };
+}
 function draw(){
   const q = $("#q").value.trim().toLowerCase();
   const list = sorted.filter(p => (cat === "Toutes" || p.cat === cat) && (p.titre + " " + p.resume + " " + p.auteur + " " + p.cat).toLowerCase().includes(q));
   $("#grid").innerHTML = list.length ? list.map((p, i) =>
     carte(p, `href="${esc(p.lien)}" target="_blank" rel="noopener"`, fmtL(p.date), i, " (ouvre la présentation dans un nouvel onglet)")
   ).join("") : `<div class="empty">${sorted.length ? "Aucune présentation ne correspond à votre recherche." : "Aucune présentation publiée pour le moment."}</div>`;
+  paginer($("#grid"), 1);   // nouvelle recherche ou nouveau filtre : retour à la page 1
   reveal();
 }
 /* ---------- Formations : carte simple (inscription par courriel) ou carte + support PDF / site ---------- */
@@ -645,9 +703,10 @@ $("#fgrid").innerHTML = D.formations.map((f, i) => {
       <h3>${esc(f.titre)}<span class="sr"> — lire le support PDF</span></h3>
     </a>
     ${f.resume ? `<p class="fsum">${esc(f.resume)}</p>` : ""}
-    <div class="fact"><button class="f1" type="button" data-f="${i}" aria-haspopup="dialog">${I_VOIR}Voir le PDF</button><a class="f2" href="${esc(f.pdf)}" target="_blank" rel="noopener">${I_OUV}<span>Consulter</span><span class="sr"> le PDF « ${esc(f.titre)} » dans un nouvel onglet</span></a>${site(f, "f2")}</div>
+    <div class="fact"><button class="f1" type="button" data-f="${i}" aria-haspopup="dialog">${I_VOIR}Voir le PDF</button>${site(f, "f2")}</div>
   </div>`;
 }).join("");
+paginer($("#fgrid"), 1);
 
 /* ---------- PDF.js : documents chargés une seule fois ---------- */
 const PDFJS = window.pdfjsLib;
@@ -789,15 +848,38 @@ document.addEventListener("keydown", e => {
 $("#q").oninput = draw;
 
 /* ---------- Réalisations : vue détail ---------- */
-const vue = r => `<button class="x" aria-label="Fermer">×</button><span class="tag">${esc(r.cat)}</span><h3>${esc(r.titre)}</h3>
-<div class="meta"><span>📅 ${esc(r.date)}</span><span>⏱ ${esc(r.duree)}</span><span>👥 ${esc(r.equipe)}</span></div>
-<p style="color:var(--mu);margin:10px 0">${esc(r.contexte)}</p>
-<ul class="li">${r.actions.map(a => `<li>${esc(a)}</li>`).join("")}</ul>
-<div class="res">${r.resultats.map(x => `<div><strong>${esc(x[0])}</strong>${esc(x[1])}</div>`).join("")}</div>
-<div class="meta">${r.tags.map(t => `<span>#${esc(t)}</span>`).join("")}</div>`;
-$("#rgrid").innerHTML = RE.map((r, i) =>
-  carte(r, `href="#realisations" data-i="${i}" aria-haspopup="dialog"`, r.date, i + 1, " — voir le détail")
-).join("") || '<div class="empty">Aucune réalisation publiée pour le moment.</div>';
+/* Fiche détail : seuls les champs renseignés sont affichés */
+const vue = r => `<button class="x" aria-label="Fermer">×</button>${r.cat ? `<span class="tag">${esc(r.cat)}</span>` : ""}<h3>${esc(r.titre)}</h3>
+${[r.statut, r.date && "📅 " + r.date, r.duree && "⏱ " + r.duree, r.equipe && "👥 " + r.equipe].filter(Boolean).length ? `<div class="meta">${[r.statut, r.date && "📅 " + r.date, r.duree && "⏱ " + r.duree, r.equipe && "👥 " + r.equipe].filter(Boolean).map(t => `<span>${esc(t)}</span>`).join("")}</div>` : ""}
+${r.contexte ? `<p style="color:var(--mu);margin:10px 0">${esc(r.contexte)}</p>` : ""}
+${(r.actions || []).length ? `<ul class="li">${r.actions.map(a => `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
+${(r.resultats || []).length ? `<div class="res">${r.resultats.map(x => `<div><strong>${esc(x[0])}</strong>${esc(x[1])}</div>`).join("")}</div>` : ""}
+${(r.tags || []).length ? `<div class="meta">${r.tags.map(t => `<span>#${esc(t)}</span>`).join("")}</div>` : ""}
+${r.lien ? `<div class="lnk"><a href="${esc(r.lien)}" target="_blank" rel="noopener">${I_OUV}${r.interne ? "Ouvrir l’application" : "Visiter le site"}</a>${r.interne ? "<small>Accessible uniquement depuis le réseau interne du cabinet</small>" : `<small>${esc(r.lien.replace(/^https?:\/\//, ""))}</small>`}</div>` : ""}`;
+/* Même gabarit que les formations : fenêtre d’application sur la carte, résumé et boutons dessous */
+const etat = r => r.cat === "Site web" ? ["WEB", "En ligne", "b-web"] : /en cours/i.test(r.statut || "") ? ["APP", "En cours", "b-cours"] : ["APP", "Interne", "b-app"];
+const adresse = r => r.lien ? r.lien.replace(/^https?:\/\//, "") : "";
+$("#rgrid").innerHTML = RE.map((r, i) => {
+  const [code, txt, cls] = etat(r), nom = r.accroche1 || r.titre.split(" :")[0];
+  const ecran = r.image
+    ? `<img src="${esc(r.image)}" alt="${esc(r.alt || "Capture d’écran de " + nom)}" loading="lazy" onerror="this.parentNode.innerHTML=this.parentNode.dataset.maquette">`
+    : "";
+  const maquette = `<span class="app-side"></span><span class="app-main"><b>${esc(nom)}</b><span class="app-kpi"><i></i><i></i><i></i></span><span class="app-rows"></span></span>`;
+  return `<div class="fitem rv">
+    <a class="card" href="#realisations" data-i="${i}" aria-haspopup="dialog">
+      <div class="vis doc">
+        <span class="doc-pg app ok"><span class="app-bar"><i></i><i></i><i></i><em>${esc(adresse(r))}</em></span><span class="app-body" data-maquette="${esc(maquette)}">${ecran || maquette}</span></span>
+        <span class="doc-badge"><i class="${cls}">${code}</i><span>${txt}</span></span>
+        <span class="doc-cta">${I_VOIR}Voir le détail</span>
+      </div>
+      <div class="cmeta">${CAL}<span>${esc(r.statut || r.date || r.cat || "")}</span></div>
+      <h3>${esc(r.titre)}<span class="sr">voir le détail</span></h3>
+    </a>
+    ${r.contexte ? `<p class="fsum">${esc(r.contexte)}</p>` : ""}
+    <div class="fact"><button class="f1" type="button" data-i="${i}" aria-haspopup="dialog">${I_VOIR}Voir le détail</button>${r.lien ? `<a class="f2" href="${esc(r.lien)}" target="_blank" rel="noopener">${r.interne ? I_OUV + "<span>Ouvrir l’application</span>" : I_WEB + "<span>Visiter le site</span>"}<span class="sr"> (nouvel onglet)</span></a>` : ""}</div>
+  </div>`;
+}).join("") || '<div class="empty">Aucune réalisation publiée pour le moment.</div>';
+paginer($("#rgrid"), 1);
 /* Focus placé sur « Fermer » à l’ouverture, rendu à la carte à la fermeture */
 let from = null;
 const fermer = () => { if (!$("#mod").classList.contains("on")) return false; $("#mod").classList.remove("on"); if (from) from.focus(); return true; };
