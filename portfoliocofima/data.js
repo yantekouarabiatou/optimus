@@ -13,7 +13,8 @@
                    Sans accroche, le début du titre est repris.
    - Formations : "date" (AAAA-MM-JJ) = date de la prochaine session ;
                   sans date, la durée est affichée sous l’image.
-                  "pdf"  = support placé dans le dossier formations/ (boutons « Voir le PDF » et « Consulter ») ;
+                  "pdf"  = support placé dans le dossier formations/ (bouton « Voir le PDF ») ;
+                  "affiche" = affiche (image) placée dans formations/, utilisée quand il n’y a pas de PDF (bouton « Voir l’affiche ») ;
                   "site" = adresse web complète (https://…), bouton « Visiter le site » affiché s’il est renseigné.
    ============================================================ */
 window.DATA = {
@@ -40,6 +41,8 @@ window.DATA = {
   ],
 
   formations: [
+    {titre:"L’IA au service de votre performance professionnelle", accroche1:"L’IA", accroche2:"au service de votre performance", cat:"Intelligence artificielle", date:"2026-09-25", duree:"2 jours", public:"Jeunes diplômés et professionnels de tous secteurs", resume:"Deux jours 100 % pratiques, les 25 et 26 septembre 2026 (9 h – 17 h) chez COFIMA, pour maîtriser l’IA et gagner en temps, en productivité et en impact au quotidien.", affiche:"formations/affiche-ia-performance.jpg", site:""},
+    {titre:"Parcours de formation en intelligence artificielle", accroche1:"Parcours IA", accroche2:"de la découverte à la maîtrise", cat:"Intelligence artificielle", date:"2026-09-24", duree:"2 sessions", public:"Tout public", resume:"Session 1 : prise en main de l’IA. Session 2 : approfondissement. ChatGPT, Gemini, Claude, DeepSeek, Qwen. Les 24 et 25 septembre 2026 chez COFIMA, en présentiel, 50 000 FCFA.", affiche:"formations/affiche-parcours-ia.jpg", site:""},
     {titre:"Le prompt engineering : l’art de bien communiquer avec l’IA", accroche1:"Bien parler", accroche2:"à l’intelligence artificielle", cat:"Club IA", auteur:"Loukmane Adandé Moussa", date:"2026-10-15", duree:"10 min", public:"Tout public", resume:"Rôle, contexte, tâche, contraintes et format : structurer sa demande à l’IA, démonstration à l’appui.", pdf:"formations/prompt-engineering.pdf", site:""},
     {titre:"AI Squirrel Quiz : un quiz IA généré avec Google AI Studio", accroche1:"AI Squirrel", accroche2:"Quiz, édition premium", cat:"Club IA", auteur:"Térence Gandji", date:"2026-10-22", duree:"10 min", public:"Tout public", resume:"Du prompt à l’application : conception, fonctionnement et analyse d’un quiz web interactif sur l’IA.", pdf:"formations/ai-squirrel-quiz.pdf", site:""}
   ]

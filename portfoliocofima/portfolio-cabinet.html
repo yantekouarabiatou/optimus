@@ -181,7 +181,7 @@ h2{font-size:30px;color:var(--nv)}h2::after{content:"";display:block;width:58px;
 /* Aperçu PDF sur la carte : première page posée sur le fond marine */
 .doc{background:radial-gradient(rgba(255,255,255,.12) 1.2px,transparent 1.3px) 0 0/18px 18px,linear-gradient(135deg,var(--nv) 0%,var(--nv2) 55%,var(--bl) 100%)}
 .doc-pg{position:absolute;left:50%;top:13%;width:58%;transform:translateX(-50%);background:#fff;border-radius:4px 4px 0 0;box-shadow:0 22px 46px rgba(6,14,32,.45),0 0 0 1px rgba(255,255,255,.4);overflow:hidden;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
-.doc-pg canvas{display:block;width:100%;height:auto}
+.doc-pg canvas,.doc-pg img{display:block;width:100%;height:auto}
 /* Squelette tant que la page n'est pas dessinée */
 .doc-pg:not(.ok){aspect-ratio:1/1.414;padding:12% 11%;background:#fff linear-gradient(#DFE6F3,#DFE6F3) 11% 12%/45% 7px no-repeat}
 .doc-pg:not(.ok)::after{content:"";display:block;margin-top:16%;height:60%;background:repeating-linear-gradient(#EEF3FC 0 6px,transparent 6px 16px)}
@@ -239,7 +239,7 @@ h2{font-size:30px;color:var(--nv)}h2::after{content:"";display:block;width:58px;
 .pv-body{position:relative;flex:1;overflow:auto;overscroll-behavior:contain}
 .pv-pages{display:flex;flex-direction:column;align-items:center;gap:30px;padding:28px 20px 44px;min-width:min-content}
 .pv-page{position:relative;background:#fff;box-shadow:0 1px 3px rgba(20,38,75,.12),0 10px 28px rgba(20,38,75,.14);border-radius:2px;flex:none}
-.pv-page canvas{display:block;width:100%;height:100%}
+.pv-page canvas,.pv-page img{display:block;width:100%;height:100%}
 .pv-page::after{content:attr(data-n);position:absolute;left:0;right:0;bottom:-22px;text-align:center;font-size:11.5px;color:var(--gr-d);font-weight:600}
 .pv-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--gr-d);font-weight:600;font-size:14px;text-align:center;padding:20px}
 .pv-load::before{content:"";width:34px;height:34px;border-radius:50%;border:3px solid #C9D3E6;border-top-color:var(--nv2);animation:spin .8s linear infinite}
@@ -566,7 +566,7 @@ footer{background:rgba(14,27,56,.84);color:#C6D1EA;padding:26px 0;font-size:14px
   <div class="pv-body" id="pvBody"><div class="pv-pages" id="pvPages"></div><div class="pv-load" id="pvLoad">Chargement du document…</div></div>
 </div></div>
 <script src="vendor/pdfjs/pdf.min.js"></script>
-<script src="data.js?v=9"></script>
+<script src="data.js?v=10"></script>
 <script>
 const D = window.DATA || {cabinet:"Cabinet", presentations:[], realisations:[], formations:[]};
 const $ = s => document.querySelector(s);
@@ -690,20 +690,21 @@ const siteOk = u => /^https?:\/\//i.test(u || "");
 const site = (f, cls) => siteOk(f.site) ? `<a class="${cls}" href="${esc(f.site)}" target="_blank" rel="noopener">${I_WEB}<span>Visiter le site</span><span class="sr"> (nouvel onglet)</span></a>` : "";
 $("#fgrid").innerHTML = D.formations.map((f, i) => {
   const date = f.date ? fmtL(f.date) : "Durée : " + f.duree;
-  if (!f.pdf) return carte(f, `href="mailto:${esc(D.email)}?subject=${encodeURIComponent("Inscription : " + f.titre)}"`, date, i + 2, " — s’informer ou s’inscrire par courriel");
-  /* Le visuel de la carte est la première page du PDF, dessinée par PDF.js */
+  if (!f.pdf && !f.affiche) return carte(f, `href="mailto:${esc(D.email)}?subject=${encodeURIComponent("Inscription : " + f.titre)}"`, date, i + 2, " — s’informer ou s’inscrire par courriel");
+  /* Le visuel de la carte est la première page du PDF (dessinée par PDF.js) ou l’affiche de la formation */
+  const pdf = !!f.pdf;
   return `<div class="fitem rv">
-    <a class="card" href="${esc(f.pdf)}" data-f="${i}" aria-haspopup="dialog">
+    <a class="card" href="${esc(f.pdf || f.affiche)}" data-f="${i}" aria-haspopup="dialog">
       <div class="vis doc">
-        <span class="doc-pg" data-pdf="${esc(f.pdf)}"></span>
-        <span class="doc-badge"><i>PDF</i><span data-np>Document</span></span>
-        <span class="doc-cta">${I_VOIR}Lire le document</span>
+        ${pdf ? `<span class="doc-pg" data-pdf="${esc(f.pdf)}"></span>` : `<span class="doc-pg ok"><img src="${esc(f.affiche)}" alt="" loading="lazy" decoding="async"></span>`}
+        <span class="doc-badge">${pdf ? `<i>PDF</i><span data-np>Document</span>` : `<i>JPG</i><span>Affiche</span>`}</span>
+        <span class="doc-cta">${I_VOIR}${pdf ? "Lire le document" : "Voir l’affiche"}</span>
       </div>
       <div class="cmeta">${CAL}<span>${esc(date + (f.auteur ? " · " + f.auteur : ""))}</span></div>
-      <h3>${esc(f.titre)}<span class="sr"> — lire le support PDF</span></h3>
+      <h3>${esc(f.titre)}<span class="sr"> — ${pdf ? "lire le support PDF" : "voir l’affiche"}</span></h3>
     </a>
     ${f.resume ? `<p class="fsum">${esc(f.resume)}</p>` : ""}
-    <div class="fact"><button class="f1" type="button" data-f="${i}" aria-haspopup="dialog">${I_VOIR}Voir le PDF</button>${site(f, "f2")}</div>
+    <div class="fact"><button class="f1" type="button" data-f="${i}" aria-haspopup="dialog">${I_VOIR}${pdf ? "Voir le PDF" : "Voir l’affiche"}</button>${site(f, "f2")}</div>
   </div>`;
 }).join("");
 paginer($("#fgrid"), 1);
@@ -744,7 +745,7 @@ function echelleFit(){
 }
 const pio = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) dessiner(e.target); }), {root: pvBody, rootMargin:"600px 0px"}) : null;
 async function dessiner(box){
-  if (box.dataset.s == V.scale) return;
+  if (V.doc.image || box.dataset.s == V.scale) return;   // affiche : l’image suit la taille du cadre
   box.dataset.s = V.scale;
   const jeton = V.jeton, page = await V.doc.getPage(+box.dataset.n);
   if (jeton !== V.jeton) return;
@@ -791,13 +792,16 @@ $("#pvPage").onchange = e => allerA(+e.target.value);
 $("#pvPage").onfocus = e => e.target.select();
 addEventListener("resize", () => { if (V.doc && V.fit && $("#pdfv").classList.contains("on")){ V.scale = echelleFit(); mettreEnPage(); } });
 
+/* Affiche une formation : support PDF, ou affiche (image) présentée comme une page unique */
 async function voirPdf(f, btn){
-  if (!PDFJS){ window.open(f.pdf, "_blank", "noopener"); return; }   // bibliothèque absente : lecteur du navigateur
+  const src = f.pdf || f.affiche;
+  if (f.pdf && !PDFJS){ window.open(f.pdf, "_blank", "noopener"); return; }   // bibliothèque absente : lecteur du navigateur
   pdfFrom = btn;
+  $(".pv-ic").textContent = f.pdf ? "PDF" : "JPG";
   $("#pdfvT").textContent = f.titre;
   $("#pdfvS").textContent = [f.auteur, f.date && fmtL(f.date), f.cat].filter(Boolean).join(" · ");
-  $("#pdfvA").innerHTML = `<a class="pv-a pri" href="${esc(f.pdf)}" download>${I_DL}<span>Télécharger</span></a>`
-    + `<a class="pv-a" href="${esc(f.pdf)}" target="_blank" rel="noopener">${I_OUV}<span>Nouvel onglet</span></a>` + site(f, "pv-a");
+  $("#pdfvA").innerHTML = `<a class="pv-a pri" href="${esc(src)}" download>${I_DL}<span>Télécharger</span></a>`
+    + `<a class="pv-a" href="${esc(src)}" target="_blank" rel="noopener">${I_OUV}<span>Nouvel onglet</span></a>` + site(f, "pv-a");
   pvPages.replaceChildren(); V.pages = []; V.doc = null; V.jeton++;
   pvLoad.className = "pv-load"; pvLoad.textContent = "Chargement du document…"; pvLoad.hidden = false;
   $("#pvN").textContent = "…";
@@ -806,6 +810,17 @@ async function voirPdf(f, btn){
   document.body.style.overflow = "hidden";
   $("#pdfvX").focus();
   try {
+    if (!f.pdf){
+      const img = new Image(); img.src = src; img.alt = "Affiche : " + f.titre;
+      await img.decode();
+      if (!$("#pdfv").classList.contains("on")) return;
+      V.doc = {image: img}; V.url = src;
+      V.base = {width: 595, height: 595 * img.naturalHeight / img.naturalWidth};   // largeur d’une page A4, comme les PDF
+      $("#pvN").textContent = 1;
+      const b = document.createElement("div");
+      b.className = "pv-page"; b.dataset.n = 1; b.append(img);
+      pvPages.append(b); V.pages.push(b);
+    } else {
     const doc = await ouvrirDoc(f.pdf);
     if (!$("#pdfv").classList.contains("on")) return;
     V.doc = doc; V.url = f.pdf;
@@ -817,12 +832,13 @@ async function voirPdf(f, btn){
       b.setAttribute("role", "img"); b.setAttribute("aria-label", "Page " + n + " sur " + doc.numPages);
       pvPages.append(b); V.pages.push(b);
     }
+    }
     pvLoad.hidden = true;
     V.fit = true; V.scale = echelleFit(); V.cur = 1;
     mettreEnPage();
   } catch (e) {
     pvLoad.className = "pv-load err";
-    pvLoad.innerHTML = `Le document n’a pas pu être affiché ici.<a class="f1" style="padding:10px 18px;border-radius:999px;background:var(--nv2);color:#fff" href="${esc(f.pdf)}" target="_blank" rel="noopener">Ouvrir le PDF</a>`;
+    pvLoad.innerHTML = `Le document n’a pas pu être affiché ici.<a class="f1" style="padding:10px 18px;border-radius:999px;background:var(--nv2);color:#fff" href="${esc(src)}" target="_blank" rel="noopener">${f.pdf ? "Ouvrir le PDF" : "Ouvrir l’affiche"}</a>`;
   }
 }
 function fermerPdf(){
