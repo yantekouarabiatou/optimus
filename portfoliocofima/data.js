@@ -24,8 +24,12 @@ window.DATA = {
   tel: "+229 01 90 95 19 59",
   email: "contact@cofima.cc",
 
-  /* Modèle : {titre:"…", accroche1:"…", accroche2:"…", image:"images/….jpg", cat:"Audit", auteur:"Prénom Nom", date:"AAAA-MM-JJ", duree:"15 min", resume:"…", lien:"presentations/….pdf"} */
-  presentations: [],
+  /* Modèle : {titre:"…", cat:"Datalead", auteur:"Prénom Nom", date:"AAAA-MM-JJ", resume:"…", pdf:"presentations/….pdf"}
+     "pdf" = document placé dans presentations/, affiché dans la visionneuse (date facultative). */
+  presentations: [
+    {titre:"Données, décisions et intelligence : le triptyque gagnant", cat:"Datalead", auteur:"Datalead N°1", resume:"Du reporting passif au pilotage actif : transformer les chiffres en décisions, et les avantages concrets de l’IA pour les experts-comptables.", pdf:"presentations/datalead-n1.pdf"},
+    {titre:"Financer la croissance au Bénin : sortir du piège du sous-financement", cat:"Datalead", auteur:"Datalead N°2", resume:"Les 5 leviers pour financer sa PME (historique financier, garanties FONAGA et FAGACE, leasing, délais fournisseurs, investisseurs) et l’apport des fintechs au crédit en Afrique de l’Ouest.", pdf:"presentations/datalead-n2.pdf"}
+  ],
 
   /* Applications et sites développés au sein du cabinet.
      Champs : statut (texte sous l’image), contexte, actions (fonctionnalités), resultats ([chiffre, libellé]),

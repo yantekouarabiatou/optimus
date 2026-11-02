@@ -566,7 +566,7 @@ footer{background:rgba(14,27,56,.84);color:#C6D1EA;padding:26px 0;font-size:14px
   <div class="pv-body" id="pvBody"><div class="pv-pages" id="pvPages"></div><div class="pv-load" id="pvLoad">Chargement du document…</div></div>
 </div></div>
 <script src="vendor/pdfjs/pdf.min.js"></script>
-<script src="data.js?v=10"></script>
+<script src="data.js?v=11"></script>
 <script>
 const D = window.DATA || {cabinet:"Cabinet", presentations:[], realisations:[], formations:[]};
 const $ = s => document.querySelector(s);
@@ -601,7 +601,7 @@ function carte(o, attrs, date, i, sr){
     <h3>${esc(o.titre)}<span class="sr">${sr}</span></h3>
   </a>`;
 }
-const sorted = [...D.presentations].sort((a,b) => b.date.localeCompare(a.date));
+const sorted = [...D.presentations].sort((a,b) => (b.date || "").localeCompare(a.date || ""));
 const cats = [...new Set(sorted.map(p => p.cat))];
 const RE = D.realisations || [];
 let cat = "Toutes";
@@ -634,7 +634,7 @@ $("#cP").textContent = sorted.length; $("#cR").textContent = RE.length; $("#cF")
 
 /* « Dernières mises à jour » : les 3 éléments datés (AAAA-MM-JJ) les plus récents */
 const recents = [
-  ...sorted.map(p => ({type:"Présentation", titre:p.titre, date:p.date, href:p.lien, ext:true})),
+  ...sorted.filter(p => /^\d{4}-\d\d-\d\d$/.test(p.date || "")).map(p => p.pdf ? {type:"Présentation", titre:p.titre, date:p.date, href:"#presentations"} : {type:"Présentation", titre:p.titre, date:p.date, href:p.lien, ext:true}),
   ...D.formations.filter(f => /^\d{4}-\d\d-\d\d$/.test(f.date || "")).map(f => ({type:"Formation", titre:f.titre, date:f.date, href:"#formations"}))
 ].sort((a,b) => b.date.localeCompare(a.date)).slice(0, 3);
 $("#latest").innerHTML = recents.map(r => `<li><a href="${esc(r.href)}"${r.ext ? ' target="_blank" rel="noopener"' : ""}><small>${r.type} · ${fmtL(r.date)}</small><b>${esc(r.titre)}</b></a></li>`).join("")
@@ -671,13 +671,17 @@ function paginer(grid, page){
     nav.querySelector("[aria-current]").focus({preventScroll:true});
   };
 }
+let vues = [];   // présentations affichées (après recherche et filtre)
 function draw(){
   const q = $("#q").value.trim().toLowerCase();
   const list = sorted.filter(p => (cat === "Toutes" || p.cat === cat) && (p.titre + " " + p.resume + " " + p.auteur + " " + p.cat).toLowerCase().includes(q));
-  $("#grid").innerHTML = list.length ? list.map((p, i) =>
-    carte(p, `href="${esc(p.lien)}" target="_blank" rel="noopener"`, fmtL(p.date), i, " (ouvre la présentation dans un nouvel onglet)")
-  ).join("") : `<div class="empty">${sorted.length ? "Aucune présentation ne correspond à votre recherche." : "Aucune présentation publiée pour le moment."}</div>`;
+  vues = list;
+  $("#grid").innerHTML = list.length ? list.map((p, i) => p.pdf
+    ? carteDoc(p, i, "p", [p.date && fmtL(p.date), p.auteur].filter(Boolean).join(" · "))
+    : carte(p, `href="${esc(p.lien)}" target="_blank" rel="noopener"`, fmtL(p.date), i, " (ouvre la présentation dans un nouvel onglet)")
+  ).join("") :`<div class="empty">${sorted.length ? "Aucune présentation ne correspond à votre recherche." : "Aucune présentation publiée pour le moment."}</div>`;
   paginer($("#grid"), 1);   // nouvelle recherche ou nouveau filtre : retour à la page 1
+  miniatures();
   reveal();
 }
 /* ---------- Formations : carte simple (inscription par courriel) ou carte + support PDF / site ---------- */
@@ -688,24 +692,28 @@ const I_WEB = SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0
 const I_DL = SVG('<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>');
 const siteOk = u => /^https?:\/\//i.test(u || "");
 const site = (f, cls) => siteOk(f.site) ? `<a class="${cls}" href="${esc(f.site)}" target="_blank" rel="noopener">${I_WEB}<span>Visiter le site</span><span class="sr"> (nouvel onglet)</span></a>` : "";
-$("#fgrid").innerHTML = D.formations.map((f, i) => {
-  const date = f.date ? fmtL(f.date) : "Durée : " + f.duree;
-  if (!f.pdf && !f.affiche) return carte(f, `href="mailto:${esc(D.email)}?subject=${encodeURIComponent("Inscription : " + f.titre)}"`, date, i + 2, " — s’informer ou s’inscrire par courriel");
-  /* Le visuel de la carte est la première page du PDF (dessinée par PDF.js) ou l’affiche de la formation */
+/* Carte « document » (formations et présentations) : le visuel est la première page du PDF
+   (dessinée par PDF.js) ou l’affiche ; cle = attribut data-* qui relie la carte à la visionneuse */
+function carteDoc(f, i, cle, meta){
   const pdf = !!f.pdf;
   return `<div class="fitem rv">
-    <a class="card" href="${esc(f.pdf || f.affiche)}" data-f="${i}" aria-haspopup="dialog">
+    <a class="card" href="${esc(f.pdf || f.affiche)}" data-${cle}="${i}" aria-haspopup="dialog">
       <div class="vis doc">
         ${pdf ? `<span class="doc-pg" data-pdf="${esc(f.pdf)}"></span>` : `<span class="doc-pg ok"><img src="${esc(f.affiche)}" alt="" loading="lazy" decoding="async"></span>`}
         <span class="doc-badge">${pdf ? `<i>PDF</i><span data-np>Document</span>` : `<i>JPG</i><span>Affiche</span>`}</span>
         <span class="doc-cta">${I_VOIR}${pdf ? "Lire le document" : "Voir l’affiche"}</span>
       </div>
-      <div class="cmeta">${CAL}<span>${esc(date + (f.auteur ? " · " + f.auteur : ""))}</span></div>
-      <h3>${esc(f.titre)}<span class="sr"> — ${pdf ? "lire le support PDF" : "voir l’affiche"}</span></h3>
+      ${meta ? `<div class="cmeta">${CAL}<span>${esc(meta)}</span></div>` : ""}
+      <h3>${esc(f.titre)}<span class="sr"> — ${pdf ? "lire le document PDF" : "voir l’affiche"}</span></h3>
     </a>
     ${f.resume ? `<p class="fsum">${esc(f.resume)}</p>` : ""}
-    <div class="fact"><button class="f1" type="button" data-f="${i}" aria-haspopup="dialog">${I_VOIR}${pdf ? "Voir le PDF" : "Voir l’affiche"}</button>${site(f, "f2")}</div>
+    <div class="fact"><button class="f1" type="button" data-${cle}="${i}" aria-haspopup="dialog">${I_VOIR}${pdf ? "Voir le PDF" : "Voir l’affiche"}</button>${site(f, "f2")}</div>
   </div>`;
+}
+$("#fgrid").innerHTML = D.formations.map((f, i) => {
+  const date = f.date ? fmtL(f.date) : "Durée : " + f.duree;
+  if (!f.pdf && !f.affiche) return carte(f, `href="mailto:${esc(D.email)}?subject=${encodeURIComponent("Inscription : " + f.titre)}"`, date, i + 2, " — s’informer ou s’inscrire par courriel");
+  return carteDoc(f, i, "f", date + (f.auteur ? " · " + f.auteur : ""));
 }).join("");
 paginer($("#fgrid"), 1);
 
@@ -728,11 +736,13 @@ async function miniature(el){
     el.closest(".vis").querySelector("[data-np]").textContent = plur(doc.numPages);
   } catch (e) { /* le squelette reste affiché */ }
 }
-if (PDFJS){
-  const thumbs = document.querySelectorAll(".doc-pg[data-pdf]");
-  const tio = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ tio.unobserve(e.target); miniature(e.target); } }), {rootMargin:"300px"}) : null;
-  thumbs.forEach(t => tio ? tio.observe(t) : miniature(t));
+const tio = PDFJS && "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ tio.unobserve(e.target); miniature(e.target); } }), {rootMargin:"300px"}) : null;
+/* À rappeler après chaque rendu de grille (les présentations sont redessinées à chaque recherche) */
+function miniatures(){
+  if (!PDFJS) return;
+  document.querySelectorAll(".doc-pg[data-pdf]:not([data-vu])").forEach(t => { t.dataset.vu = 1; tio ? tio.observe(t) : miniature(t); });
 }
+miniatures();
 
 /* ---------- Visionneuse PDF ---------- */
 const V = {doc:null, url:"", scale:1, fit:true, cur:1, pages:[], jeton:0};
@@ -851,6 +861,7 @@ function fermerPdf(){
   return true;
 }
 $("#fgrid").onclick = e => { const b = e.target.closest("[data-f]"); if (!b) return; e.preventDefault(); voirPdf(D.formations[+b.dataset.f], b); };
+$("#grid").onclick = e => { const b = e.target.closest("[data-p]"); if (!b) return; e.preventDefault(); voirPdf(vues[+b.dataset.p], b); };
 $("#pdfvX").onclick = fermerPdf;
 $("#pdfv").onclick = e => { if (e.target.id === "pdfv") fermerPdf(); };
 /* Clavier dans la visionneuse : flèches = pages, + / - = zoom */
